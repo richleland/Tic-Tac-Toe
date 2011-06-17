@@ -11,6 +11,43 @@ Array.prototype.compare = function(arr) {
 }
 
 $(function(){
+  var searchForWin = function(){
+    // return winning index or false
+    $.each(possibleWins, function(index, value){
+      //
+    });
+    return false;
+  };
+
+  var searchForBlock = function(){
+    // return blocking index or false
+    return false;
+  };
+
+  var makeComputerMove = function(){
+    var winIndex = searchForWin();
+    var blockIndex = searchForBlock();
+
+    if(winIndex !== false){
+      squares.eq(winIndex).trigger("click");
+      return;
+    }
+
+    if(blockIndex !== false){
+      squares.eq(blockIndex).trigger("click");
+      return;
+    }
+
+    // temporarily pick the next available square
+    squares.each(function(){
+      var square = $(this);
+      if(square.text() === ""){
+        square.trigger("click");
+        return false;
+      }
+    });
+  };
+
   var checkForWin = function(){
     // check to see if we have 3 in a row (8 possible combinations)
     var isWinner = false;
@@ -54,6 +91,7 @@ $(function(){
         currentPlayer = COMPUTER;
         currentLetter = O;
         info.text("My move.");
+        makeComputerMove();
       } else {
         currentPlayer = HUMAN;
         currentLetter = X;

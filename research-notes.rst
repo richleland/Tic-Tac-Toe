@@ -14,9 +14,12 @@ Logic needed
 
 * DONE respond to click of space
 * DONE determine if move creates win
-* determine next best move (and my god, give it a slight pause)
 * DONE prompt user it is their move
 * find spots that need to be blocked
+* determine next best move (and my god, give it a slight pause)
+    - win if possible
+    - block win
+    - next best move
 
 Links
 *****
