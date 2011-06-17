@@ -16,8 +16,7 @@ $(function(){
     return false;
   };
 
-  var searchForBlock = function(){
-    // return blocking index or false
+  var winOrBlock = function(letter){
     var emptySquares = squares.filter(":empty");
     var diagonals = squares.filter(".even");
     var diagonalTopLeft = diagonals.filter(":even");
@@ -29,16 +28,16 @@ $(function(){
       var aboveSquare = square.parent().siblings(":first").children(":eq("+square.index()+")").text();
       var belowSquare = square.parent().siblings(":last").children(":eq("+square.index()+")").text();
 
-      if(square.siblings(":contains("+X+")").length == 2) {
+      if(square.siblings(":contains("+letter+")").length == 2) {
         // checks current empty square row
         position = squares.index(square);
-      } else if(aboveSquare == X && belowSquare == X) {
+      } else if(aboveSquare == letter && belowSquare == letter) {
         // checks empty square column
         position = squares.index(square);
-      } else if(diagonalTopLeft.index(square) >= 0 && diagonalTopLeft.filter(":contains('"+X+"')").length == 2) {
+      } else if(diagonalTopLeft.index(square) >= 0 && diagonalTopLeft.filter(":contains('"+letter+"')").length == 2) {
         // if its the \ diagonal
         position = squares.index(square);
-      } else if(diagonalTopRight.index(square) >= 0 && diagonalTopRight.filter(":contains('"+X+"')").length == 2) {
+      } else if(diagonalTopRight.index(square) >= 0 && diagonalTopRight.filter(":contains('"+letter+"')").length == 2) {
         // if its in the / diagonal
         position = squares.index(square);
       }
@@ -47,20 +46,16 @@ $(function(){
   };
 
   var makeComputerMove = function(){
-    var winIndex = searchForWin();
-    var blockIndex = searchForBlock();
+    var winOrBlockIndex = winOrBlock(O) || winOrBlock(X);
+    console.log(winOrBlockIndex);
 
-    if(winIndex !== false){
-      squares.eq(winIndex).trigger("click");
-      return;
-    }
-
-    if(blockIndex !== false){
-      squares.eq(blockIndex).trigger("click");
+    if(winOrBlockIndex !== false){
+      squares.eq(winOrBlockIndex).trigger("click");
       return;
     }
 
     // temporarily pick the next available square
+    // we'll want to account for possible forks here
     squares.each(function(){
       var square = $(this);
       if(square.text() === ""){
