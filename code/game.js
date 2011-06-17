@@ -41,7 +41,7 @@ $(function(){
       // declare winner
       info.text("WIN!");
       $.each(positions, function(index, value){
-        squares.eq(index).addClass("winner");
+        squares.eq(value).addClass("winner");
       });
       squares.unbind("click");
     } else {
