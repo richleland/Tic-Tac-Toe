@@ -44,6 +44,10 @@ $(function(){
         squares.eq(value).addClass("winner");
       });
       squares.unbind("click");
+    } else if(numMoves == 9) {
+      // we have a tie
+      info.text("TIE!");
+      squares.unbind("click");
     } else {
       // if not a win, switch players
       if(currentPlayer == HUMAN) {
@@ -58,7 +62,8 @@ $(function(){
     }
   };
 
-  var COMPUTER = 0
+  var numMoves = 0
+    , COMPUTER = 0
     , HUMAN = 1
     , X = "X"
     , O = "O"
@@ -88,6 +93,7 @@ $(function(){
       info.text("That square is already occupied by an " + currentValue + ".");
     } else {
       // fill in the spot
+      numMoves++;
       if(currentPlayer == HUMAN) {
         square.text(X);
       } else {
