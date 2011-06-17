@@ -75,6 +75,8 @@ h1, h2, h3, h4, h5, h6 { font-weight: bold; }
 a, a:active, a:visited { color: #607890; }
 a:hover { color: #036; }
 
+
+
 /*
 Tic tac toe
 */
@@ -99,26 +101,30 @@ h1 {
     width: 120px;
 }
 
-#board td.one,
-#board td.two {
+#board #one,
+#board #two {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
 }
 
-#board td.three,
-#board td.six {
+#board #three,
+#board #six {
     border-bottom: 1px solid #CCC;
 }
 
-#board td.four,
-#board td.five {
+#board #four,
+#board #five {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
 }
 
-#board td.seven,
-#board td.eight {
+#board #seven,
+#board #eight {
     border-right: 1px solid #CCC;
+}
+
+#board td.highlight {
+    background-color: #F5F5F5;
 }
 
 
