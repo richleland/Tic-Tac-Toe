@@ -29,9 +29,16 @@ $(function(){
 
     if(currentValue == X || currentValue == O) {
       // already filled in
+      info.text("That square is already occupied by an " + currentValue + ".");
     } else {
       // fill in the spot
-      currentPlayer == HUMAN ? square.text(X) : square.text(O);
+      if(currentPlayer == HUMAN) {
+        square.text(X);
+        info.text("My move.");
+      } else {
+        square.text(O);
+        info.text("Your move.");
+      }
       currentPlayer = currentPlayer == HUMAN ? COMPUTER : HUMAN;
     }
     checkForWin();

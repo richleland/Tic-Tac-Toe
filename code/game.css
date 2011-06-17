@@ -87,6 +87,10 @@ body {
 
 h1 {
     font-size: 175%;
+    margin-bottom: 0.5em;
+}
+
+p {
     margin-bottom: 1em;
 }
 
