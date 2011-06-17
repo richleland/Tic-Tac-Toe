@@ -22,6 +22,7 @@ $(function(){
     var diagonals = squares.filter(".even");
     var diagonalTopLeft = diagonals.filter(":even");
     var diagonalTopRight = diagonals.slice(1, 4);
+    var position = false;
 
     emptySquares.each(function(index){
       var square = $(this);
@@ -30,19 +31,19 @@ $(function(){
 
       if(square.siblings(":contains("+X+")").length == 2) {
         // checks current empty square row
-        square.css("background-color", "#CC0000");
+        position = squares.index(square);
       } else if(aboveSquare == X && belowSquare == X) {
         // checks empty square column
-        square.css("background-color", "#CC0000");
+        position = squares.index(square);
       } else if(diagonalTopLeft.index(square) >= 0 && diagonalTopLeft.filter(":contains('"+X+"')").length == 2) {
         // if its the \ diagonal
-        square.css("background-color", "#CC0000");
+        position = squares.index(square);
       } else if(diagonalTopRight.index(square) >= 0 && diagonalTopRight.filter(":contains('"+X+"')").length == 2) {
         // if its in the / diagonal
-        square.css("background-color", "#CC0000");
+        position = squares.index(square);
       }
     });
-    return false;
+    return position;
   };
 
   var makeComputerMove = function(){
