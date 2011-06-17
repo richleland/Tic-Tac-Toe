@@ -93,13 +93,13 @@ $(function(){
       info.text("That square is already occupied by an " + currentValue + ".");
     } else {
       // fill in the spot
-      numMoves++;
       if(currentPlayer == HUMAN) {
         square.text(X);
       } else {
         square.text(O);
       }
+      numMoves++;
+      checkForWin();
     }
-    checkForWin();
   });
 });
