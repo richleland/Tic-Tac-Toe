@@ -1,6 +1,3 @@
-
-/* ==== Scroll down to find where to put your styles :) ==== */
-
 /*  HTML5 ✰ Boilerplate  */
 
 html, body, div, span, object, iframe,
@@ -79,23 +76,50 @@ a, a:active, a:visited { color: #607890; }
 a:hover { color: #036; }
 
 /*
-    // ========================================== \\
-   ||                                              ||
-   ||               Your styles !                  ||
-   ||                                              ||
-    \\ ========================================== //
+Tic tac toe
 */
 
+body {
+    padding: 20px;
+}
 
-table td.one,
-table td.two {
+h1 {
+    font-size: 175%;
+    margin-bottom: 1em;
+}
+
+#board {
+    font-size: 250%;
+}
+
+#board td {
+    height: 120px;
+    text-align: center;
+    vertical-align: middle;
+    width: 120px;
+}
+
+#board td.one,
+#board td.two {
+    border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
 }
 
+#board td.three,
+#board td.six {
+    border-bottom: 1px solid #CCC;
+}
 
+#board td.four,
+#board td.five {
+    border-right: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+}
 
-
-
+#board td.seven,
+#board td.eight {
+    border-right: 1px solid #CCC;
+}
 
 
 
