@@ -11,11 +11,6 @@ Array.prototype.compare = function(arr) {
 }
 
 $(function(){
-  var searchForWin = function(){
-    // return winning index or false
-    return false;
-  };
-
   var winOrBlock = function(letter){
     var emptySquares = squares.filter(":empty");
     var diagonals = squares.filter(".even");
