@@ -96,6 +96,7 @@ p {
 
 #board {
     font-size: 250%;
+    font-weight: bold;
 }
 
 #board td {

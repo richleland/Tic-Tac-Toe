@@ -13,14 +13,35 @@ Array.prototype.compare = function(arr) {
 $(function(){
   var searchForWin = function(){
     // return winning index or false
-    $.each(possibleWins, function(index, value){
-      //
-    });
     return false;
   };
 
   var searchForBlock = function(){
     // return blocking index or false
+    var emptySquares = squares.filter(":empty");
+    var diagonals = squares.filter(".even");
+    var diagonalTopLeft = diagonals.filter(":even");
+    var diagonalTopRight = diagonals.slice(1, 4);
+
+    emptySquares.each(function(index){
+      var square = $(this);
+      var aboveSquare = square.parent().siblings(":first").children(":eq("+square.index()+")").text();
+      var belowSquare = square.parent().siblings(":last").children(":eq("+square.index()+")").text();
+
+      if(square.siblings(":contains("+X+")").length == 2) {
+        // checks current empty square row
+        square.css("background-color", "#CC0000");
+      } else if(aboveSquare == X && belowSquare == X) {
+        // checks empty square column
+        square.css("background-color", "#CC0000");
+      } else if(diagonalTopLeft.index(square) >= 0 && diagonalTopLeft.filter(":contains('"+X+"')").length == 2) {
+        // if its the \ diagonal
+        square.css("background-color", "#CC0000");
+      } else if(diagonalTopRight.index(square) >= 0 && diagonalTopRight.filter(":contains('"+X+"')").length == 2) {
+        // if its in the / diagonal
+        square.css("background-color", "#CC0000");
+      }
+    });
     return false;
   };
 
