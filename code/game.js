@@ -40,6 +40,9 @@ $(function(){
     if(isWinner) {
       // declare winner
       info.text("WIN!");
+      $.each(positions, function(index, value){
+        squares.eq(index).addClass("winner");
+      });
       squares.unbind("click");
     } else {
       // if not a win, switch players

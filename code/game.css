@@ -105,6 +105,10 @@ p {
     width: 120px;
 }
 
+#board td.winner {
+    color: #00CC00;
+}
+
 #board #one,
 #board #two {
     border-right: 1px solid #CCC;
