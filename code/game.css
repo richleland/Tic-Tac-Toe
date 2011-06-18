@@ -94,45 +94,47 @@ p {
     margin-bottom: 1em;
 }
 
-#board {
+.board {
+    float: left;
     font-size: 250%;
     font-weight: bold;
+    margin-right: 40px;
 }
 
-#board td {
+.board td {
     height: 120px;
     text-align: center;
     vertical-align: middle;
     width: 120px;
 }
 
-#board td.winner {
+.board td.winner {
     color: #00CC00;
 }
 
-#board #one,
-#board #two {
+.board #one,
+.board #two {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
 }
 
-#board #three,
-#board #six {
+.board #three,
+.board #six {
     border-bottom: 1px solid #CCC;
 }
 
-#board #four,
-#board #five {
+.board #four,
+.board #five {
     border-right: 1px solid #CCC;
     border-bottom: 1px solid #CCC;
 }
 
-#board #seven,
-#board #eight {
+.board #seven,
+.board #eight {
     border-right: 1px solid #CCC;
 }
 
-#board td.highlight {
+.board td.highlight {
     background-color: #F5F5F5;
 }
 
