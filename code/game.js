@@ -42,21 +42,41 @@ $(function(){
 
   var makeComputerMove = function(){
     var winOrBlockIndex = winOrBlock(O) || winOrBlock(X);
-    console.log(winOrBlockIndex);
 
+    // win or block if possible
     if(winOrBlockIndex !== false){
       squares.eq(winOrBlockIndex).trigger("click");
       return;
     }
 
-    // temporarily pick the next available square
-    // we'll want to account for possible forks here
-    squares.each(function(){
+    // check for forks
+    var corners = squares.filter(":eq(0), :eq(2), :eq(6), :eq(8)");
+    if(corners.eq(0).text() == X && corners.eq(4).text() == "") {
+      var position = squares.index(corners.eq(4));
+      squares.eq(position).trigger("click");
+      return;
+    }
+
+    // check corner squares for availability
+    var emptyCorners = corners.filter(":empty")
+    if(corners.length) {
+      var position = squares.index(corners.eq(0));
+      squares.eq(position).trigger("click");
+      return;
+    }
+
+    // check if center square is free
+    var center = squares.eq(4).filter(":empty");
+    if(center.length) {
+      squares.eq(4).trigger("click");
+      return;
+    }
+    
+    // pick a remaining side
+    squares.filter(":empty").each(function(){
       var square = $(this);
-      if(square.text() === ""){
-        square.trigger("click");
-        return false;
-      }
+      square.trigger("click");
+      return false;
     });
   };
 
