@@ -61,6 +61,29 @@ $(function(){
       return the best move
 
     */
+    var alpha = -1000;
+    var beta = 1000;
+
+    var validMoves = getValidMoves(state);
+    var bestMove;
+    var bestRank;
+
+    for(var i = 0; i < validMoves.length; i++) {
+      var move = validMoves[i];
+      var newState = state.clone();
+      newState[move] = O;
+      var rank = -(alphaBeta(newState, 9, alpha, beta));
+      if(bestMove == null) {
+        bestMove = move;
+        bestRank = rank;
+      }
+
+      if(rank > bestRank) {
+        bestMove = move;
+        bestRank = rank;
+      }
+    }
+    return bestMove;
   };
 
   var examineState = function(state) {
@@ -162,12 +185,12 @@ $(function(){
     X, X, O
   ];
   var midState = [
-    "", "", X,
+    O, X, X,
     X, "", O,
     "", X, O
   ];
   //var foo = examineState(testState);
-  var foo = alphaBeta(midState, 9, -1000, 1000);
+  var foo = getBestMove(state);
   console.log(foo);
 
   /*
