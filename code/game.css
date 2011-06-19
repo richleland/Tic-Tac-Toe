@@ -112,6 +112,10 @@ p {
     color: #00CC00;
 }
 
+.board td.best {
+    background-color: #CC0000;
+}
+
 .board #one,
 .board #two {
     border-right: 1px solid #CCC;

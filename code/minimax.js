@@ -187,7 +187,15 @@ $(function(){
     var letter = computersTurn ? O : X;
     square.text(letter);
     computersTurn = !computersTurn;
-    console.log(getBoardState(state));
+    
+    // update the evaluated board as well
+    var evaluatedSquare = evaluated.find("td:eq("+squares.index(square)+")");
+    evaluatedSquare.text(letter);
+
+    // on the evaluation board, highlight next best move
+    evaluated.find("td").removeClass("best");
+    var bestMove = getBestMove(getBoardState());
+    evaluated.find("td:eq("+bestMove+")").addClass("best");
   };
 
   var state = ["", "", "", "", "", "", "", "", ""];
@@ -215,26 +223,5 @@ $(function(){
   //var foo = getBestMove(state);
   //console.log(foo);
 
-  /*
-  var pickSquare = function() {
-    // handle the click on a square
-    var square = $(this);
-    var letter = computersTurn ? O : X;
-    square.text(letter);
-    computersTurn = !computersTurn;
-  };
-
-  // reference some objects
-  var initialBoard = $("#board");
-  var evaluated = $("#evaluated");
-  var squares = initialBoard.find("td");
-  var info = $("#info");
-  var X = "X";
-  var O = "O";
-  var computersTurn = false;
-
-  // tell the squares how to respond
-  squares.bind("click", pickSquare);
-  */
 });
 
