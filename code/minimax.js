@@ -49,8 +49,9 @@ $(function(){
     */
   };
 
-  var getValidMoves = function(state) {
-    // grab all valid moves on the board supplied state
+  var getValidMoves = function(board) {
+    // grab all valid moves on the board in supplied state
+    return board.find("td:empty");
   };
 
 });
