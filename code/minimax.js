@@ -54,5 +54,23 @@ $(function(){
     return board.find("td:empty");
   };
 
+  var pickSquare = function() {
+    var square = $(this);
+    var letter = computersTurn ? O : X;
+    square.text(letter);
+    computersTurn = !computersTurn;
+  };
+
+  // reference some objects
+  var initialBoard = $("#board");
+  var evaluated = $("#evaluated");
+  var squares = initialBoard.find("td");
+  var info = $("#info");
+  var X = "X";
+  var O = "O";
+  var computersTurn = false;
+
+  // tell the squares how to respond
+  squares.bind("click", pickSquare);
 });
 
