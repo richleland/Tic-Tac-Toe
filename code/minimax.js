@@ -1,3 +1,7 @@
+Array.prototype.clone = function() {
+  return this.slice(0);
+}
+
 $(function(){
   var alphaBeta = function(state, depth, alpha, beta) {
     /* pseudocode:
@@ -14,7 +18,31 @@ $(function(){
           break, pruning this branch
       return the alpha value
 
-     */
+    */
+    var validMoves = getValidMoves(state);
+    var winner = checkForWinner(state)
+
+    if(depth == 0 || validMoves.length == 0 || winner) {
+      return examineState(state);
+    }
+
+    for(var i = 0; i < validMoves.length; i++) {
+      var move = validMoves[i];
+      var newState = state.clone();
+      newState[move] = X;
+
+      var val = -alphaBeta(newState, depth - 1, -beta, -alpha);
+      if(val > alpha) {
+        alpha = val;
+      }
+
+      if(alpha >= beta) {
+        // prune it!
+        break;
+      }
+    }
+
+    return alpha;
   };
 
   var getBestMove = function(state) {
@@ -47,14 +75,104 @@ $(function(){
       decrement score by fields opponent has
       return score
     */
+    var score = 0;
+    var winner = checkForWinner(state);
+    if(winner) {
+      return winner == X ? -1000 : 1000;
+    }
+
+    var squaresWithX = $.map(state, function(item, index) {
+      return item == X ? index : null;
+    }).length;
+    var squaresWithO = $.map(state, function(item, index) {
+      return item == O ? index : null;
+    }).length;
+
+    score += squaresWithO * 2.5;
+    score -= squaresWithX * 0.5;
+
+    return score
   };
 
-  var getValidMoves = function(board) {
+  var checkForWinner = function(state) {
+    var winner = false;
+    var possibleWins = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],
+      [0, 4, 8], [2, 4, 6]
+    ];
+
+    var squaresWithX = $.map(state, function(item, index) {
+      return item == X ? index : null;
+    });
+
+    var squaresWithO = $.map(state, function(item, index) {
+      return item == O ? index : null;
+    });
+
+    $.each(possibleWins, function(index, winningCombo) {
+      var hitCount = 0;
+      $.each(squaresWithX, function(squareIndex, xPosition) {
+        if($.inArray(xPosition, winningCombo) > -1) {
+          hitCount++;
+        }
+        if(hitCount == 3) {
+          //console.log("X WINS!");
+          //console.log(winningCombo);
+          winner = X;
+          return false;
+        }
+      });
+    });
+
+    $.each(possibleWins, function(index, winningCombo) {
+      var hitCount = 0;
+      $.each(squaresWithO, function(squareIndex, oPosition) {
+        if($.inArray(oPosition, winningCombo) > -1) {
+          hitCount++;
+        }
+        if(hitCount == 3) {
+          //console.log("O WINS!");
+          //console.log(winningCombo);
+          winner = O;
+          return false;
+        }
+      });
+    });
+
+    return winner
+  };
+
+  var getValidMoves = function(state) {
     // grab all valid moves on the board in supplied state
-    return board.find("td:empty");
+    var availableSlots = $.map(state, function(item, index) {
+      return item == "" ? index : null;
+    });
+    return availableSlots;
   };
 
+  var state = ["", "", "", "", "", "", "", "", ""];
+  var GAME_OVER = "GAME OVER";
+  var X = "X";
+  var O = "O";
+  //console.log(alphaBeta(state, 9, -1000, 1000));
+  var testState = [
+    O, X, X,
+    X, O, O,
+    X, X, O
+  ];
+  var midState = [
+    "", "", X,
+    X, "", O,
+    "", X, O
+  ];
+  //var foo = examineState(testState);
+  var foo = alphaBeta(midState, 9, -1000, 1000);
+  console.log(foo);
+
+  /*
   var pickSquare = function() {
+    // handle the click on a square
     var square = $(this);
     var letter = computersTurn ? O : X;
     square.text(letter);
@@ -69,8 +187,10 @@ $(function(){
   var X = "X";
   var O = "O";
   var computersTurn = false;
+  var GAME_OVER = "foo";
 
   // tell the squares how to respond
   squares.bind("click", pickSquare);
+  */
 });
 
