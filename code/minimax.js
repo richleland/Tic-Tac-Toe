@@ -174,24 +174,46 @@ $(function(){
     return availableSlots;
   };
 
+  var getBoardState = function() {
+    var boardState = $.map(squares, function(square, index) {
+      return $(square).text();
+    });
+    return boardState;
+  };
+
+  var pickSquare = function() {
+    // handle the click on a square
+    var square = $(this);
+    var letter = computersTurn ? O : X;
+    square.text(letter);
+    computersTurn = !computersTurn;
+    console.log(getBoardState(state));
+  };
+
   var state = ["", "", "", "", "", "", "", "", ""];
-  var GAME_OVER = "GAME OVER";
   var X = "X";
   var O = "O";
-  //console.log(alphaBeta(state, 9, -1000, 1000));
-  var testState = [
-    O, X, X,
-    X, O, O,
-    X, X, O
-  ];
-  var midState = [
-    O, X, X,
-    X, "", O,
-    "", X, O
-  ];
+  var board = $("#board");
+  var squares = board.find("td");
+  var evaluated = $("#evaluated");
+  var info = $("#info");
+  var computersTurn = false;
+
+  squares.bind("click", pickSquare);
+
+  //var testState = [
+    //O, X, X,
+    //X, O, O,
+    //X, X, O
+  //];
+  //var midState = [
+    //O, X, X,
+    //X, "", O,
+    //"", X, O
+  //];
   //var foo = examineState(testState);
-  var foo = getBestMove(state);
-  console.log(foo);
+  //var foo = getBestMove(state);
+  //console.log(foo);
 
   /*
   var pickSquare = function() {
@@ -210,7 +232,6 @@ $(function(){
   var X = "X";
   var O = "O";
   var computersTurn = false;
-  var GAME_OVER = "foo";
 
   // tell the squares how to respond
   squares.bind("click", pickSquare);
