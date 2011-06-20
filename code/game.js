@@ -10,7 +10,6 @@ $(function(){
   var board = $("#board");
   var squares = board.find("td");
   var info = $("#info");
-  var computersTurn = false;
   var X = "X";
   var O = "O";
 
@@ -58,7 +57,7 @@ $(function(){
     }
 
     // if X picks a corner, put O in the center
-    if(squareIndex in CORNER_SQUARES) {
+    if($.inArray(squareIndex, CORNER_SQUARES) > -1) {
       var centerSquare = squares.eq(CENTER_SQUARE);
       if(centerSquare.text() == "") {
         squares.eq(CENTER_SQUARE).text(O);
@@ -69,16 +68,16 @@ $(function(){
     }
 
     // put O in a side (1, 3, 5, 7)
-    $.each(SIDE_SQUARES, function(index, value) {
-      var currentSquare = squares.eq(value);
-      if(currentSquare.text() == "") {
-        currentSquare.text(O);
-        played = true;
-        return false;
-      }
-    });
-    // stop execution if O played
-    if(played) return;
+    //$.each(SIDE_SQUARES, function(index, value) {
+      //var currentSquare = squares.eq(value);
+      //if(currentSquare.text() == "") {
+        //currentSquare.text(O);
+        //played = true;
+        //return false;
+      //}
+    //});
+    //// stop execution if O played
+    //if(played) return;
 
     // go through X's next possible plays, and put an O on the first available square
   });
