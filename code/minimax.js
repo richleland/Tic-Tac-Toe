@@ -3,7 +3,7 @@ Array.prototype.clone = function() {
 }
 
 $(function(){
-  var alphaBeta = function(state, depth, alpha, beta) {
+  var alphaBeta = function(state, depth, alpha, beta, forLetter) {
     /* pseudocode:
        
       get all valid moves
@@ -19,6 +19,7 @@ $(function(){
       return the alpha value
 
     */
+    //console.log(state + " at depth " + depth);
     var validMoves = getValidMoves(state);
     var winner = checkForWinner(state)
 
@@ -26,12 +27,14 @@ $(function(){
       return examineState(state);
     }
 
+    var currentLetter = forLetter;
     for(var i = 0; i < validMoves.length; i++) {
       var move = validMoves[i];
       var newState = state.clone();
-      newState[move] = X;
+      newState[move] = currentLetter;
 
-      var val = -alphaBeta(newState, depth - 1, -beta, -alpha);
+      currentLetter = currentLetter == X ? O : X;
+      var val = -alphaBeta(newState, depth - 1, -beta, -alpha, currentLetter);
       if(val > alpha) {
         alpha = val;
       }
@@ -45,7 +48,7 @@ $(function(){
     return alpha;
   };
 
-  var getBestMove = function(state) {
+  var getBestMove = function(state, forLetter) {
     /* pseudocode
       
       set constants for alpha (-1000, game lost) and beta (1000, game won)
@@ -68,11 +71,13 @@ $(function(){
     var bestMove;
     var bestRank;
 
+    var currentLetter = forLetter;
     for(var i = 0; i < validMoves.length; i++) {
       var move = validMoves[i];
       var newState = state.clone();
-      newState[move] = O;
-      var rank = -(alphaBeta(newState, 9, alpha, beta));
+      newState[move] = currentLetter;
+      currentLetter = currentLetter == X ? O : X;
+      var rank = -(alphaBeta(newState, 3, alpha, beta, currentLetter));
       if(bestMove == null) {
         bestMove = move;
         bestRank = rank;
@@ -99,20 +104,25 @@ $(function(){
       return score
     */
     var score = 0;
+
+    // check for win, returning negative for human, positive for cpu
     var winner = checkForWinner(state);
     if(winner) {
       return winner == X ? -1000 : 1000;
     }
 
+    // check for block
+
     var squaresWithX = $.map(state, function(item, index) {
       return item == X ? index : null;
     }).length;
+
     var squaresWithO = $.map(state, function(item, index) {
       return item == O ? index : null;
     }).length;
 
-    score += squaresWithO * 2.5;
-    score -= squaresWithX * 0.5;
+    score += squaresWithO;
+    score -= squaresWithX;
 
     return score
   };
@@ -193,9 +203,21 @@ $(function(){
     evaluatedSquare.text(letter);
 
     // on the evaluation board, highlight next best move
+    letter = computersTurn ? O : X;
     evaluated.find("td").removeClass("best");
-    var bestMove = getBestMove(getBoardState());
+    var bestMove = getBestMove(getBoardState(), letter);
     evaluated.find("td:eq("+bestMove+")").addClass("best");
+
+    if(computersTurn && !checkForWinner(getBoardState())) {
+      //makeComputerMove();
+    }
+  };
+
+  var makeComputerMove = function() {
+    var bestMove = getBestMove(getBoardState(), O);
+    if(bestMove !== undefined) {
+      squares.eq(bestMove).trigger("click");
+    }
   };
 
   var state = ["", "", "", "", "", "", "", "", ""];
