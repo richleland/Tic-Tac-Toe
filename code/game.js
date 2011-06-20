@@ -4,6 +4,9 @@ $(function(){
     [0, 3, 6], [1, 4, 7], [2, 5, 8],
     [0, 4, 8], [2, 4, 6]
   ];
+  var CORNER_SQUARES = [0, 2, 6, 8];
+  var SIDE_SQUARES = [1, 3, 5, 7];
+  var CENTER_SQUARE = 4;
   var board = $("#board");
   var squares = board.find("td");
   var info = $("#info");
@@ -42,6 +45,9 @@ $(function(){
     // if X picks the middle, put O in a corner
 
     // if X picks a corner, put O in the center
+    if(squareIndex in CORNER_SQUARES) {
+      squares.eq(CENTER_SQUARE).text(O);
+    }
 
     // put O in a side (1, 3, 5, 7)
 
