@@ -29,6 +29,7 @@ $(function(){
   squares.click(function() {
     var square = $(this);
     var squareIndex = squares.index(square);
+    var played = false;
 
     // fill in the square with an X if it's open
     if(square.text() == "") {
@@ -44,7 +45,6 @@ $(function(){
 
     // if X picks the middle, put O in a corner
     if(squareIndex == CENTER_SQUARE) {
-      var played = false;
       $.each(CORNER_SQUARES, function(index, value) {
         var currentSquare = squares.eq(value);
         if(currentSquare.text() == "") {
@@ -60,7 +60,6 @@ $(function(){
     // if X picks a corner, put O in the center
     if(squareIndex in CORNER_SQUARES) {
       var centerSquare = squares.eq(CENTER_SQUARE);
-      var played = false;
       if(centerSquare.text() == "") {
         squares.eq(CENTER_SQUARE).text(O);
         played = true;
@@ -70,6 +69,16 @@ $(function(){
     }
 
     // put O in a side (1, 3, 5, 7)
+    $.each(SIDE_SQUARES, function(index, value) {
+      var currentSquare = squares.eq(value);
+      if(currentSquare.text() == "") {
+        currentSquare.text(O);
+        played = true;
+        return false;
+      }
+    });
+    // stop execution if O played
+    if(played) return;
 
     // go through X's next possible plays, and put an O on the first available square
   });
