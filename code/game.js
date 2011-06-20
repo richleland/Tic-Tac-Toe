@@ -36,17 +36,47 @@ $(function(){
       var possibleCombos = getPossibleCombosForSelection(squareIndex);
     } else {
       info.text("That space is occupied by an " + square.text() + ".");
+      return;
     }
 
     // see if O can win, if so, place O and win
-    
+    $.each(possibleWins, function(index, winningCombo) {
+      var squaresWithO = 0;
+
+      $.each(winningCombo, function(index, value) {
+        var currentSquare = squares.eq(value);
+        if(currentSquare.text() == O) {
+          squaresWithO++;
+        } else if(currentSquare.text() == X) {
+          // X is blocking our way
+          return false;
+        }
+      });
+
+      if(squaresWithO == 2) {
+        $.each(winningCombo, function(index, value) {
+          var currentSquare = squares.eq(value);
+          if(currentSquare.text() == "") {
+            currentSquare.text(O);
+            played = true;
+            return false;
+          }
+        });
+      }
+    });
+
+    // stop execution if O played
+    if(played) return;
+
     // see if X can be blocked, if so, block it with O
     $.each(possibleCombos, function(index, winningCombo) {
       var squaresWithX = 0;
+
       $.each(winningCombo, function(index, value) {
         var currentSquare = squares.eq(value);
         if(currentSquare.text() == X) squaresWithX++;
       });
+
       if(squaresWithX == 2) {
         $.each(winningCombo, function(index, value) {
           var currentSquare = squares.eq(value);
@@ -57,9 +87,10 @@ $(function(){
           }
         });
       }
-      // stop execution if O played
-      if(played) return;
     });
+
+    // stop execution if O played
+    if(played) return;
 
     // if X picks the middle, put O in a corner
     if(squareIndex == CENTER_SQUARE) {
