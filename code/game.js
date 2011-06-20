@@ -123,7 +123,18 @@ $(function(){
       if(centerSquare.text() == "") {
         squares.eq(CENTER_SQUARE).text(O);
         played = true;
+      } else {
+        // put O in a side (1, 3, 5, 7)
+        $.each(SIDE_SQUARES, function(index, value) {
+          var currentSquare = squares.eq(value);
+          if(currentSquare.text() == "") {
+            currentSquare.text(O);
+            played = true;
+            return false;
+          }
+        });
       }
+
       // stop execution if O played
       if(played) return;
     }
