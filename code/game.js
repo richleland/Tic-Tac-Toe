@@ -43,10 +43,30 @@ $(function(){
     // see if X can be blocked, if so, block it with O
 
     // if X picks the middle, put O in a corner
+    if(squareIndex == CENTER_SQUARE) {
+      var played = false;
+      $.each(CORNER_SQUARES, function(index, value) {
+        var currentSquare = squares.eq(value);
+        if(currentSquare.text() == "") {
+          currentSquare.text(O);
+          played = true;
+          return false;
+        }
+      });
+      // stop execution if O played
+      if(played) return;
+    }
 
     // if X picks a corner, put O in the center
     if(squareIndex in CORNER_SQUARES) {
-      squares.eq(CENTER_SQUARE).text(O);
+      var centerSquare = squares.eq(CENTER_SQUARE);
+      var played = false;
+      if(centerSquare.text() == "") {
+        squares.eq(CENTER_SQUARE).text(O);
+        played = true;
+      }
+      // stop execution if O played
+      if(played) return;
     }
 
     // put O in a side (1, 3, 5, 7)
