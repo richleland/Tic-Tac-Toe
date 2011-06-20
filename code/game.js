@@ -130,5 +130,17 @@ $(function(){
     //if(played) return;
 
     // go through X's next possible plays, and put an O on the first available square
+    $.each(possibleCombos, function(index, winningCombo) {
+      $.each(winningCombo, function(index, value) {
+        var currentSquare = squares.eq(value);
+        if(currentSquare.text() == "") {
+          currentSquare.text(O);
+          played = true;
+          return false;
+        }
+      });
+      // stop execution if O played
+      if(played) return false;
+    });
   });
 });
