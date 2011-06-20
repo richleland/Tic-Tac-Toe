@@ -94,6 +94,10 @@ p {
     margin-bottom: 1em;
 }
 
+#evaluated {
+    color: #999;
+}
+
 .board {
     float: left;
     font-size: 250%;
@@ -113,7 +117,7 @@ p {
 }
 
 .board td.best {
-    background-color: #CC0000;
+    background-color: #F5F5F5;
 }
 
 .board #one,
