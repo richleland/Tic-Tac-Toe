@@ -104,6 +104,7 @@ $(function(){
       return item == O ? index : null;
     });
 
+    // loop through all possible wins, seeing if X exists in any winning combo
     $.each(possibleWins, function(index, winningCombo) {
       var hitCount = 0;
       $.each(squaresWithX, function(squareIndex, xPosition) {
@@ -111,14 +112,13 @@ $(function(){
           hitCount++;
         }
         if(hitCount == 3) {
-          //console.log("X WINS!");
-          //console.log(winningCombo);
           winner = X;
           return false;
         }
       });
     });
 
+    // loop through all possible wins, seeing if O exists in any winning combo
     $.each(possibleWins, function(index, winningCombo) {
       var hitCount = 0;
       $.each(squaresWithO, function(squareIndex, oPosition) {
@@ -126,8 +126,6 @@ $(function(){
           hitCount++;
         }
         if(hitCount == 3) {
-          //console.log("O WINS!");
-          //console.log(winningCombo);
           winner = O;
           return false;
         }
@@ -146,6 +144,7 @@ $(function(){
   };
 
   var getBoardState = function() {
+    // get an array of the text of each square, aka state
     var boardState = $.map(squares, function(square, index) {
       return $(square).text();
     });
@@ -169,6 +168,7 @@ $(function(){
     var bestMove = getBestMove(getBoardState(), letter);
     evaluated.find("td:eq("+bestMove+")").addClass("best");
 
+    // complete the game if we have a winner
     var hasWinner = checkForWinner(getBoardState());
     if(hasWinner) {
       squares.unbind("click");
@@ -181,6 +181,7 @@ $(function(){
   };
 
   var makeComputerMove = function() {
+    // get the next best move for the computer and make it
     var bestMove = getBestMove(getBoardState(), O);
     if(bestMove !== undefined) {
       squares.eq(bestMove).trigger("click");
@@ -202,12 +203,6 @@ $(function(){
   var computersTurn = false;
 
   squares.bind("click", pickSquare);
-
-  var testState = [
-    X, X, X,
-    O, X, X,
-    O, O, O
-  ];
 
   //var testState = [
     //O, X, X,
