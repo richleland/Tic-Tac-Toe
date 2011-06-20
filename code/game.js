@@ -41,6 +41,25 @@ $(function(){
     // see if O can win, if so, place O and win
     
     // see if X can be blocked, if so, block it with O
+    $.each(possibleCombos, function(index, winningCombo) {
+      var squaresWithX = 0;
+      $.each(winningCombo, function(index, value) {
+        var currentSquare = squares.eq(value);
+        if(currentSquare.text() == X) squaresWithX++;
+      });
+      if(squaresWithX == 2) {
+        $.each(winningCombo, function(index, value) {
+          var currentSquare = squares.eq(value);
+          if(currentSquare.text() == "") {
+            currentSquare.text(O);
+            played = true;
+            return false;
+          }
+        });
+      }
+      // stop execution if O played
+      if(played) return;
+    });
 
     // if X picks the middle, put O in a corner
     if(squareIndex == CENTER_SQUARE) {
