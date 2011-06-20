@@ -24,7 +24,9 @@ $(function(){
     var winner = checkForWinner(state)
 
     if(depth == 0 || validMoves.length == 0 || winner) {
-      return examineState(state);
+      var score = 0;
+      winner == X ? score = -1000 : score = 1000;
+      return score
     }
 
     var currentLetter = forLetter;
@@ -91,49 +93,8 @@ $(function(){
     return bestMove;
   };
 
-  var examineState = function(state) {
-    /* pseudocode
-      
-      set score to 0
-      if the game is over
-        return 1000 if won, -1000 if lost
-      calculate how many fields we have
-      calculate how many fields our opponent has
-      increment score by fields we have
-      decrement score by fields opponent has
-      return score
-    */
-    var score = 0;
-
-    // check for win, returning negative for human, positive for cpu
-    var winner = checkForWinner(state);
-    if(winner) {
-      return winner == X ? -1000 : 1000;
-    }
-
-    // check for block
-
-    var squaresWithX = $.map(state, function(item, index) {
-      return item == X ? index : null;
-    }).length;
-
-    var squaresWithO = $.map(state, function(item, index) {
-      return item == O ? index : null;
-    }).length;
-
-    score += squaresWithO;
-    score -= squaresWithX;
-
-    return score
-  };
-
   var checkForWinner = function(state) {
     var winner = false;
-    var possibleWins = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8],
-      [0, 3, 6], [1, 4, 7], [2, 5, 8],
-      [0, 4, 8], [2, 4, 6]
-    ];
 
     var squaresWithX = $.map(state, function(item, index) {
       return item == X ? index : null;
@@ -208,6 +169,12 @@ $(function(){
     var bestMove = getBestMove(getBoardState(), letter);
     evaluated.find("td:eq("+bestMove+")").addClass("best");
 
+    var hasWinner = checkForWinner(getBoardState());
+    if(hasWinner) {
+      squares.unbind("click");
+      return false;
+    }
+
     if(computersTurn && !checkForWinner(getBoardState())) {
       //makeComputerMove();
     }
@@ -220,6 +187,11 @@ $(function(){
     }
   };
 
+  var possibleWins = [
+    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+    [0, 4, 8], [2, 4, 6]
+  ];
   var state = ["", "", "", "", "", "", "", "", ""];
   var X = "X";
   var O = "O";
@@ -230,6 +202,12 @@ $(function(){
   var computersTurn = false;
 
   squares.bind("click", pickSquare);
+
+  var testState = [
+    X, X, X,
+    O, X, X,
+    O, O, O
+  ];
 
   //var testState = [
     //O, X, X,
