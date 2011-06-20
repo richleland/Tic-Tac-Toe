@@ -29,11 +29,12 @@ $(function(){
     var square = $(this);
     var squareIndex = squares.index(square);
     var played = false;
+    var possibleCombos;
 
     // fill in the square with an X if it's open
-    if(square.text() == "") {
+    if(square.text() === "") {
       square.text(X);
-      var possibleCombos = getPossibleCombosForSelection(squareIndex);
+      possibleCombos = getPossibleCombosForSelection(squareIndex);
     } else {
       info.text("That space is occupied by an " + square.text() + ".");
       return;
@@ -56,7 +57,7 @@ $(function(){
       if(squaresWithO.length == 2) {
         $.each(winningCombo, function(index, value) {
           var currentSquare = squares.eq(value);
-          if(currentSquare.text() == "") {
+          if(currentSquare.text() === "") {
             currentSquare.text(O);
             squaresWithO.push(currentSquare);
             played = true;
@@ -85,13 +86,15 @@ $(function(){
 
       $.each(winningCombo, function(index, value) {
         var currentSquare = squares.eq(value);
-        if(currentSquare.text() == X) squaresWithX++;
+        if(currentSquare.text() === X) {
+          squaresWithX++;
+        }
       });
 
       if(squaresWithX == 2) {
         $.each(winningCombo, function(index, value) {
           var currentSquare = squares.eq(value);
-          if(currentSquare.text() == "") {
+          if(currentSquare.text() === "") {
             currentSquare.text(O);
             played = true;
             return false;
@@ -101,33 +104,37 @@ $(function(){
     });
 
     // stop execution if O played
-    if(played) return;
+    if(played) {
+      return;
+    }
 
     // if X picks the middle, put O in a corner
     if(squareIndex == CENTER_SQUARE) {
       $.each(CORNER_SQUARES, function(index, value) {
         var currentSquare = squares.eq(value);
-        if(currentSquare.text() == "") {
+        if(currentSquare.text() === "") {
           currentSquare.text(O);
           played = true;
           return false;
         }
       });
       // stop execution if O played
-      if(played) return;
+      if(played) {
+        return;
+      }
     }
 
     // if X picks a corner, put O in the center
     if($.inArray(squareIndex, CORNER_SQUARES) > -1) {
       var centerSquare = squares.eq(CENTER_SQUARE);
-      if(centerSquare.text() == "") {
+      if(centerSquare.text() === "") {
         squares.eq(CENTER_SQUARE).text(O);
         played = true;
       } else {
         // put O in a side (1, 3, 5, 7)
         $.each(SIDE_SQUARES, function(index, value) {
           var currentSquare = squares.eq(value);
-          if(currentSquare.text() == "") {
+          if(currentSquare.text() === "") {
             currentSquare.text(O);
             played = true;
             return false;
@@ -136,21 +143,25 @@ $(function(){
       }
 
       // stop execution if O played
-      if(played) return;
+      if(played) {
+        return;
+      }
     }
 
     // go through X's next possible plays, and put an O on the first available square
     $.each(possibleCombos, function(index, winningCombo) {
       $.each(winningCombo, function(index, value) {
         var currentSquare = squares.eq(value);
-        if(currentSquare.text() == "") {
+        if(currentSquare.text() === "") {
           currentSquare.text(O);
           played = true;
           return false;
         }
       });
       // stop execution if O played
-      if(played) return false;
+      if(played) {
+        return false;
+      }
     });
   });
 });
