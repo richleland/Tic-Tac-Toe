@@ -13,12 +13,11 @@ $(function(){
 
   squares.click(function() {
     var square = $(this);
-    var letter = computersTurn ? O : X;
     if(square.text() == "") {
-      square.text(letter);
+      square.text(X);
     } else {
       info.text("That space is occupied by an " + square.text() + ".");
     }
-    computersTurn = !computersTurn;
+
   });
 });
