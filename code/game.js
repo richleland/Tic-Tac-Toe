@@ -11,13 +11,40 @@ $(function(){
   var X = "X";
   var O = "O";
 
+  var getPossibleCombosForSelection = function(squareIndex) {
+    // loop through each possible winning combo, seeing if it contains the index of
+    // the selected square
+    var possibleCombos = [];
+    $.each(possibleWins, function(index, value) {
+      if($.inArray(squareIndex, value) > -1) {
+        possibleCombos.push(value);
+      }
+    });
+    return possibleCombos;
+  };
+
   squares.click(function() {
     var square = $(this);
+    var squareIndex = squares.index(square);
+
+    // fill in the square with an X if it's open
     if(square.text() == "") {
       square.text(X);
+      var possibleCombos = getPossibleCombosForSelection(squareIndex);
     } else {
       info.text("That space is occupied by an " + square.text() + ".");
     }
 
+    // see if O can win, if so, place O and win
+    
+    // see if X can be blocked, if so, block it with O
+
+    // if X picks the middle, put O in a corner
+
+    // if X picks a corner, put O in the center
+
+    // put O in a side (1, 3, 5, 7)
+
+    // go through X's next possible plays, and put an O on the first available square
   });
 });
