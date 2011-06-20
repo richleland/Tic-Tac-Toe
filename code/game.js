@@ -41,32 +41,43 @@ $(function(){
 
     // see if O can win, if so, place O and win
     $.each(possibleWins, function(index, winningCombo) {
-      var squaresWithO = 0;
+      var squaresWithO = [];
 
       $.each(winningCombo, function(index, value) {
         var currentSquare = squares.eq(value);
         if(currentSquare.text() == O) {
-          squaresWithO++;
+          squaresWithO.push(currentSquare);
         } else if(currentSquare.text() == X) {
           // X is blocking our way
           return false;
         }
       });
 
-      if(squaresWithO == 2) {
+      if(squaresWithO.length == 2) {
         $.each(winningCombo, function(index, value) {
           var currentSquare = squares.eq(value);
           if(currentSquare.text() == "") {
             currentSquare.text(O);
+            squaresWithO.push(currentSquare);
             played = true;
             return false;
           }
         });
       }
+
+      if(played) {
+        $(squaresWithO).each(function() {
+          $(this).addClass("winner");
+        });
+        return false;
+      }
     });
 
-    // stop execution if O played
-    if(played) return;
+    // stop execution, O wins!
+    if(played) {
+      squares.unbind("click");
+      return;
+    }
 
     // see if X can be blocked, if so, block it with O
     $.each(possibleCombos, function(index, winningCombo) {
