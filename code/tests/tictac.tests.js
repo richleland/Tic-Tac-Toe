@@ -18,17 +18,57 @@ $(function(){
   boardHTML += '    </tr>';
   boardHTML += '</table>';
 
-  var testBoard = $(boardHTML);
-  var squares = testBoard.find("td");
   var X = "X";
   var O = "O";
-  testBoard.tictac();
+
+  var setupBoard = function() {
+      this.board = $(boardHTML);
+      this.squares = this.board.find("td");
+      this.board.tictac();
+  };
+
+  module("User interactions", {
+    setup: setupBoard
+  });
 
   test("Click places X in selected square", function() {
+    /*
+      X - -
+      - - -
+      - - -
+    */
     expect(1);
-    var firstSquare = squares.eq(0);
+    var firstSquare = this.squares.eq(0);
     firstSquare.trigger("click");
-    equals(firstSquare.text(), X, "We expect value to be " + X);
+    equal(firstSquare.text(), X, "We expect the selected square to contain an " + X);
+  });
+
+  module("Computer reactions", {
+    setup: setupBoard
+  });
+
+  test("Place O in center since X selected a corner", function() {
+    /*
+      X - -
+      - O -
+      - - -
+    */
+    expect(1);
+    this.squares.eq(2).trigger("click");
+    var centerSquare = this.squares.eq(4);
+    equal(centerSquare.text(), O, "We expect the center square to contain an " + O);
+  });
+
+  test("Block a winning combo", function() {
+    /*
+      X X O
+      - O -
+      - - -
+    */
+    expect(1);
+    this.squares.eq(0).trigger("click");
+    this.squares.eq(1).trigger("click");
+    equal(this.squares.eq(2).text(), O, "We expect the top right square to contain an " + O);
   });
 
 });
