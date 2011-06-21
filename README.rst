@@ -1,11 +1,46 @@
-Intructions:
-1. Fork this repo on GitHub
-2. Create a program that can interactively play the game of Tic-Tac-Toe against a human player and never lose.
-3. Commit early and often, with good messages.
-4. Push your code back to GitHub and send me a pull request.
+Tic Tac Toe Solution
+====================
 
-If you're interested in our code challenge but don't want to broadcast your intentions by forking this. Feel free to clone it and work locally and send us a tar.gz of your solution, including your .git folder (we like to see your commit history).
+I've created my solution in JavaScript. Initially I considered doing a Python and JavaScript hybrid with ajax calls to a Django backend but this seemed like overkill to me. The final solution is implemented as a jQuery plugin (``code/jquery.tictac.js``). To see it in use, open ``code/game.html`` in your browser.
 
-We are a Django shop, but it is not a requirement that you implement your program as a Django app.
+How to use the plugin
+*********************
 
-(Don't be offended when I don't actually pull. I will clone your repo and inspect it locally when I receive the request. This repo will be left solution-less for obvious reasons.)
+Using the tictac plugin is easy. It's a basic jQuery plugin that doesn't allow for any customizations in its current form. Create an HTML page with a table marked up like so::
+
+    
+    <table id="board" class="board">
+        <tr>
+            <td id="one" class="even"></td>
+            <td id="two"></td>
+            <td id="three" class="even"></td>
+        </tr>
+        <tr>
+            <td id="four"></td>
+            <td id="five" class="even"></td>
+            <td id="six"></td>
+        </tr>
+        <tr>
+            <td id="seven" class="even"></td>
+            <td id="eight"></td>
+            <td id="nine" class="even"></td>
+        </tr>
+    </table>
+
+Then add the following JavaScript to your HTML page before the ``</body>`` tag::
+
+    <script src="http://code.jquery.com/jquery-1.5.1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="path/to/jquery.tictac.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(function() {
+            $("#board").tictac();
+        });
+    </script>
+
+The HTML page in ``code/game.html`` has a full working example with three boards on it.
+
+Tests
+*****
+
+Tests were built using QUnit. To run them, simply open ``code/tests/qunit.html`` in your browser.
+
