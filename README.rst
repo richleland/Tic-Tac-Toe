@@ -3,7 +3,7 @@ Tic Tac Toe Solution
 
 I've created my solution in JavaScript. Initially I considered doing a Python and JavaScript hybrid with ajax calls to a Django backend but this seemed like overkill to me. The final solution is implemented as a jQuery plugin (``code/jquery.tictac.js``).
 
-**To view the solution, open ``code/game.html`` in your browser.**
+**To view the solution, open** ``code/game.html`` **in your browser.**
 
 How to use the plugin
 *********************
