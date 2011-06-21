@@ -22,9 +22,9 @@ $(function(){
   var O = "O";
 
   var setupBoard = function() {
-      this.board = $(boardHTML);
-      this.squares = this.board.find("td");
-      this.board.tictac();
+    this.board = $(boardHTML);
+    this.squares = this.board.find("td");
+    this.board.tictac();
   };
 
   module("User interactions", {
@@ -34,13 +34,12 @@ $(function(){
   test("Click places X in selected square", function() {
     /*
       X - -
-      - - -
+      - O -
       - - -
     */
     expect(1);
-    var firstSquare = this.squares.eq(0);
-    firstSquare.trigger("click");
-    equal(firstSquare.text(), X, "We expect the selected square to contain an " + X);
+    this.squares.eq(0).trigger("click");
+    equal(this.squares.eq(0).text(), X, "We expect the top left square to contain an " + X);
   });
 
   module("Computer reactions", {
@@ -49,13 +48,14 @@ $(function(){
 
   test("Place O in center since X selected a corner", function() {
     /*
-      X - -
+      - - X
       - O -
       - - -
     */
-    expect(1);
+    expect(2);
     this.squares.eq(2).trigger("click");
     var centerSquare = this.squares.eq(4);
+    equal(this.squares.eq(2).text(), X, "We expect the top right square to contain an " + X);
     equal(centerSquare.text(), O, "We expect the center square to contain an " + O);
   });
 
@@ -65,10 +65,28 @@ $(function(){
       - O -
       - - -
     */
-    expect(1);
+    expect(4);
     this.squares.eq(0).trigger("click");
     this.squares.eq(1).trigger("click");
+    equal(this.squares.eq(0).text(), X, "We expect the top left square to contain an " + X);
+    equal(this.squares.eq(1).text(), X, "We expect the top middle square to contain an " + X);
     equal(this.squares.eq(2).text(), O, "We expect the top right square to contain an " + O);
+    equal(this.squares.eq(4).text(), O, "We expect the center square to contain an " + O);
+  });
+
+  test("Block a winning combo", function() {
+    /*
+      X X O
+      - O -
+      - - -
+    */
+    expect(4);
+    this.squares.eq(0).trigger("click");
+    this.squares.eq(1).trigger("click");
+    equal(this.squares.eq(0).text(), X, "We expect the top left square to contain an " + X);
+    equal(this.squares.eq(1).text(), X, "We expect the top middle square to contain an " + X);
+    equal(this.squares.eq(2).text(), O, "We expect the top right square to contain an " + O);
+    equal(this.squares.eq(4).text(), O, "We expect the center square to contain an " + O);
   });
 
 });
