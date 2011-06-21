@@ -8,7 +8,6 @@
 
     <body>
         <h1>Tic Tac Toe</h1>
-        <p id="info">Your move.</p>
         <table id="board" class="board">
             <tr>
                 <td id="one" class="even"></td>
@@ -26,7 +25,51 @@
                 <td id="nine" class="even"></td>
             </tr>
         </table>
+
+        <table id="anotherBoard" class="board">
+            <tr>
+                <td id="one" class="even"></td>
+                <td id="two"></td>
+                <td id="three" class="even"></td>
+            </tr>
+            <tr>
+                <td id="four"></td>
+                <td id="five" class="even"></td>
+                <td id="six"></td>
+            </tr>
+            <tr>
+                <td id="seven" class="even"></td>
+                <td id="eight"></td>
+                <td id="nine" class="even"></td>
+            </tr>
+        </table>
+
+        <table id="thirdBoard" class="board">
+            <tr>
+                <td id="one" class="even"></td>
+                <td id="two"></td>
+                <td id="three" class="even"></td>
+            </tr>
+            <tr>
+                <td id="four"></td>
+                <td id="five" class="even"></td>
+                <td id="six"></td>
+            </tr>
+            <tr>
+                <td id="seven" class="even"></td>
+                <td id="eight"></td>
+                <td id="nine" class="even"></td>
+            </tr>
+        </table>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.js" type="text/javascript" charset="utf-8"></script>
-        <script src="game.js" type="text/javascript" charset="utf-8"></script>
+        <script src="jquery.tictac.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+            $(function() {
+                $("#board, #anotherBoard").tictac().css("border", "1px solid #CC0000");
+                //$("#anotherBoard").tictac().css("border", "1px solid #00CC00");
+                var thirdBoard = $("#thirdBoard").tictac();
+                thirdBoard.css("border", "1px solid #0000CC");
+            });
+        </script>
     </body>
 </html>
