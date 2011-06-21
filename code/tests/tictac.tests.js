@@ -1,25 +1,34 @@
 $(function(){
-  test("a basic test example", function() {
-    ok( true, "this test is fine" );
-    var value = "hello";
-    equals( "hello", value, "We expect value to be hello" );
+  var boardHTML = "";
+  boardHTML += '<table id="board">';
+  boardHTML += '    <tr>';
+  boardHTML += '        <td class="even"></td>';
+  boardHTML += '        <td></td>';
+  boardHTML += '        <td class="even"></td>';
+  boardHTML += '    </tr>';
+  boardHTML += '    <tr>';
+  boardHTML += '        <td></td>';
+  boardHTML += '        <td class="even"></td>';
+  boardHTML += '        <td></td>';
+  boardHTML += '    </tr>';
+  boardHTML += '    <tr>';
+  boardHTML += '        <td class="even"></td>';
+  boardHTML += '        <td></td>';
+  boardHTML += '        <td class="even"></td>';
+  boardHTML += '    </tr>';
+  boardHTML += '</table>';
+
+  var testBoard = $(boardHTML);
+  var squares = testBoard.find("td");
+  var X = "X";
+  var O = "O";
+  testBoard.tictac();
+
+  test("Click places X in selected square", function() {
+    expect(1);
+    var firstSquare = squares.eq(0);
+    firstSquare.trigger("click");
+    equals(firstSquare.text(), X, "We expect value to be " + X);
   });
 
-  module("Module A");
-
-  test("first test within module", function() {
-    ok( true, "all pass" );
-  });
-
-  test("second test within module", function() {
-    ok( true, "all pass" );
-  });
-
-  module("Module B");
-
-  test("some other test", function() {
-    expect(2);
-    equals( true, false, "failing test" );
-    equals( true, true, "passing test" );
-  });
 });
