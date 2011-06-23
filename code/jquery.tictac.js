@@ -41,6 +41,31 @@
           return;
         }
 
+        // see if X has won, if so, something is wrong
+        var xWins = false;
+        $.each(possibleWins, function(index, winningCombo) {
+          var squaresWithX = [];
+
+          $.each(winningCombo, function(index, value) {
+            var currentSquare = squares.eq(value);
+            if(currentSquare.text() == X) {
+              squaresWithX.push(currentSquare);
+            }
+          });
+
+          if(squaresWithX.length == 3) {
+            $(squaresWithX).each(function() {
+              $(this).addClass("winner");
+            });
+            xWins = true;
+            return false;
+          }
+        });
+
+        if(xWins) {
+          return;
+        }
+
         // see if O can win, if so, place O and win
         $.each(possibleWins, function(index, winningCombo) {
           var squaresWithO = [];
