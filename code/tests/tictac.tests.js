@@ -53,34 +53,35 @@ $(function(){
       var winningSquares = squares.filter(".winner");
       if(winningSquares.length) {
         if(winningSquares.text() === "XXX") {
-          $("body").append("<p>--X WINS--</p>").append(board);
-          console.log("X WINS");
-          //return -1;
+          // X won
+          //$("body").append("<p>--X WINS--</p>").append(board);
+          //console.log("X WINS");
+          //console.log("X clicked the following squares: " + clickedSquares);
+          return -1;
         } else if(winningSquares.text() === "OOO") {
-          //$("body").append("<p>--O WINS--</p>").append(board);
-          //console.log("O WINS");
-          //return 1;
+          // O won
+          return 1;
         }
       }
     }
-    //$("body").append("<p>--DRAW--</p>").append(board);
-    //console.log("DRAW");
     // if we got to this point, it's a draw
-    if(clickedSquares[0] == 5) {
-      console.log("X clicked the following squares: " + clickedSquares);
-    }
     return 0;
   };
 
-  module("Randomness");
+  module("Game results");
 
-  test("Do some randomness", function() {
-    //for(var i = 0; i < 3; i++) {
-      //var board = $(boardHTML);
-      //var squares = board.find("td");
-      //board.tictac();
-      //playFullGame(board);
-    //}
+  test("Games always result in win or tie", function() {
+    var xWon = false;
+    for(var i = 0; i < 1000; i++) {
+      var board = $(boardHTML);
+      var squares = board.find("td");
+      board.tictac();
+      xWon = playFullGame(board) == -1;
+      if(xWon) {
+        break;
+      }
+    }
+    ok(!xWon);
   });
 
   module("User interactions", {
