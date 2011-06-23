@@ -27,6 +27,62 @@ $(function(){
     this.board.tictac();
   };
 
+  var getAvailableSquares = function(board) {
+    var allSquares = board.find("td");
+    var emptySquares = board.find("td:empty");
+    var emptyIndexes = [];
+    for(var i = 0; i < emptySquares.length; i++) {
+      emptyIndexes.push(allSquares.index(emptySquares[i]));
+    }
+    return emptyIndexes;
+  };
+
+  var playFullGame = function(board) {
+    // play a full game, making 5 moves for X and returning the result
+    // -1 for win by X, 0 for a tie, and 1 for win by O
+    var squares = board.find("td");
+    var clickedSquares = [];
+    for(var x = 0; x < 5; x++) {
+      // click a random square from the list of available squares
+      var availableSquares = getAvailableSquares(board);
+      var random = Math.floor(Math.random() * availableSquares.length);
+      squares.eq(availableSquares[random]).trigger("click");
+      clickedSquares.push(availableSquares[random]);
+
+      // check for win or loss
+      var winningSquares = squares.filter(".winner");
+      if(winningSquares.length) {
+        if(winningSquares.text() === "XXX") {
+          $("body").append("<p>--X WINS--</p>").append(board);
+          console.log("X WINS");
+          //return -1;
+        } else if(winningSquares.text() === "OOO") {
+          //$("body").append("<p>--O WINS--</p>").append(board);
+          //console.log("O WINS");
+          //return 1;
+        }
+      }
+    }
+    //$("body").append("<p>--DRAW--</p>").append(board);
+    //console.log("DRAW");
+    // if we got to this point, it's a draw
+    if(clickedSquares[0] == 5) {
+      console.log("X clicked the following squares: " + clickedSquares);
+    }
+    return 0;
+  };
+
+  module("Randomness");
+
+  test("Do some randomness", function() {
+    //for(var i = 0; i < 3; i++) {
+      //var board = $(boardHTML);
+      //var squares = board.find("td");
+      //board.tictac();
+      //playFullGame(board);
+    //}
+  });
+
   module("User interactions", {
     setup: setupBoard
   });
@@ -160,4 +216,32 @@ $(function(){
     equal(this.squares.eq(6).text(), O, "We expect the bottom left square to contain an " + O);
   });
 
+  test("Do not allow forks to occur", function() {
+    /*
+      X - * <-- O should place here!
+      - O X
+      - - -
+    */
+    expect(1);
+    ok(false);
+  });
+
+  test("O never has more squares filled than X", function() {
+    expect(1);
+    var tooManySquaresWithO = false;
+    for(var i = 0; i < 1000; i++) {
+      var board = $(boardHTML);
+      var squares = board.find("td");
+      board.tictac();
+      playFullGame(board);
+      
+      var squaresWithX = squares.filter(":contains(X)");
+      var squaresWithO = squares.filter(":contains(O)");
+      tooManySquaresWithO = squaresWithO.length > squaresWithX.length;
+      if(tooManySquaresWithO) {
+        break;
+      }
+    }
+    ok(!tooManySquaresWithO);
+  });
 });
