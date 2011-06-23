@@ -101,6 +101,11 @@
                 return false;
               }
             });
+
+            // don't play more than one square, fool!
+            if(played) {
+              return false;
+            }
           }
         });
 
