@@ -217,16 +217,6 @@ $(function(){
     equal(this.squares.eq(6).text(), O, "We expect the bottom left square to contain an " + O);
   });
 
-  test("Do not allow forks to occur", function() {
-    /*
-      X - * <-- O should place here!
-      - O X
-      - - -
-    */
-    expect(1);
-    ok(false);
-  });
-
   test("O never has more squares filled than X", function() {
     expect(1);
     var tooManySquaresWithO = false;
