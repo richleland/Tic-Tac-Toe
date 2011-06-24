@@ -22,12 +22,14 @@ $(function(){
   var O = "O";
 
   var setupBoard = function() {
+    // creates a board for use with QUnit module setup method
     this.board = $(boardHTML);
     this.squares = this.board.find("td");
     this.board.tictac();
   };
 
   var getAvailableSquares = function(board) {
+    // get the indexes of all available squares for supplied board
     var allSquares = board.find("td");
     var emptySquares = board.find("td:empty");
     var emptyIndexes = [];
@@ -47,6 +49,8 @@ $(function(){
       var availableSquares = getAvailableSquares(board);
       var random = Math.floor(Math.random() * availableSquares.length);
       squares.eq(availableSquares[random]).trigger("click");
+
+      // keep track of the click sequence, useful for debugging
       clickedSquares.push(availableSquares[random]);
 
       // check for win or loss
@@ -54,9 +58,6 @@ $(function(){
       if(winningSquares.length) {
         if(winningSquares.text() === "XXX") {
           // X won
-          //$("body").append("<p>--X WINS--</p>").append(board);
-          //console.log("X WINS");
-          //console.log("X clicked the following squares: " + clickedSquares);
           return -1;
         } else if(winningSquares.text() === "OOO") {
           // O won
@@ -71,6 +72,9 @@ $(function(){
   module("Game results");
 
   test("Games always result in win or tie", function() {
+    /*
+      Plays lots of full games and checks to make sure X didn't win.
+    */
     var xWon = false;
     for(var i = 0; i < 1000; i++) {
       var board = $(boardHTML);
@@ -218,6 +222,9 @@ $(function(){
   });
 
   test("O never has more squares filled than X", function() {
+    /*
+      This addresses a bug where O was blocking by selecting two squares at once.
+    */
     expect(1);
     var tooManySquaresWithO = false;
     for(var i = 0; i < 1000; i++) {
