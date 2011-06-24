@@ -63,6 +63,7 @@
         });
 
         if(xWins) {
+          squares.unbind("click");
           return;
         }
 
