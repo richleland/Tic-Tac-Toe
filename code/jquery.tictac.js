@@ -42,13 +42,11 @@
         var indexCreatesFork = -1;
         var potentialIndicies = [];
 
-        //console.log("Empty indexes are: " + emptyIndexes);
         for(var i = 0; i < emptyIndexes.length; i++) {
           // create a temporary board to fake actions X might take
           var fakeBoard = board.clone();
           var fakeSquares = fakeBoard.find("td");
 
-          //console.log("Triggering square " + emptyIndexes[i]);
           fakeSquares.eq(emptyIndexes[i]).text(X);
 
           var combos = 0;
@@ -89,11 +87,6 @@
           indexCreatesFork = potentialIndicies[0];
         }
 
-        //console.log("Indicies that will create fork: " + (potentialIndicies.length ? potentialIndicies : "none"));
-        //squares.removeClass("highlight");
-        //$.each(potentialIndicies, function(index, value) {
-          //squares.eq(value).addClass("highlight");
-        //});
         return indexCreatesFork;
       };
 
@@ -212,7 +205,6 @@
 
         // see if x can create a fork
         var forked = findPotentialFork(board);
-        //console.log(forked);
         if(forked > -1) {
           squares.eq(forked).text(O);
           played = true;
