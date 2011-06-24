@@ -16,8 +16,8 @@
       var O = "O";
 
       var getPossibleCombosForSelection = function (squareIndex) {
-        // loop through each possible winning combo, seeing if it contains the index of
-        // the selected square
+        // loop through each possible winning combo, seeing if it contains the index
+        // of the selected square
         var possibleCombos = [];
         $.each(possibleWins, function(index, value) {
           if($.inArray(squareIndex, value) > -1) {
@@ -28,6 +28,7 @@
       };
 
       var getAvailableSquares = function(board) {
+        // get the indexes of all available squares for supplied board
         var allSquares = board.find("td");
         var emptySquares = board.find("td:empty");
         var emptyIndexes = [];
@@ -47,6 +48,7 @@
           var fakeBoard = board.clone();
           var fakeSquares = fakeBoard.find("td");
 
+          // fake selecting a square on the fake board
           fakeSquares.eq(emptyIndexes[i]).text(X);
 
           var combos = 0;
@@ -75,7 +77,7 @@
 
         // check the potential indicies
         if(potentialIndicies.length == 2) {
-          // return the first available side (1, 3, 5, 7)
+          // if there are 2 potential forks, set the index to the first available side
           $.each(SIDE_SQUARES, function(index, value) {
             var currentSquare = fakeSquares.eq(value);
             if(currentSquare.text() === "") {
@@ -84,6 +86,7 @@
             }
           });
         } else {
+          // otherwise set the fork to be blocked as the first in the list
           indexCreatesFork = potentialIndicies[0];
         }
 
