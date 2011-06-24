@@ -27,6 +27,76 @@
         return possibleCombos;
       };
 
+      var getAvailableSquares = function(board) {
+        var allSquares = board.find("td");
+        var emptySquares = board.find("td:empty");
+        var emptyIndexes = [];
+        for(var i = 0; i < emptySquares.length; i++) {
+          emptyIndexes.push(allSquares.index(emptySquares[i]));
+        }
+        return emptyIndexes;
+      };
+
+      var findPotentialFork = function(board) {
+        var emptyIndexes = getAvailableSquares(board);
+        var indexCreatesFork = -1;
+        var potentialIndicies = [];
+
+        //console.log("Empty indexes are: " + emptyIndexes);
+        for(var i = 0; i < emptyIndexes.length; i++) {
+          // create a temporary board to fake actions X might take
+          var fakeBoard = board.clone();
+          var fakeSquares = fakeBoard.find("td");
+
+          //console.log("Triggering square " + emptyIndexes[i]);
+          fakeSquares.eq(emptyIndexes[i]).text(X);
+
+          var combos = 0;
+          $.each(possibleWins, function(index, winningCombo) {
+            var squaresWithX = [];
+            var hasO = false;
+
+            $.each(winningCombo, function(index, value) {
+              var currentSquare = fakeSquares.eq(value);
+              if(currentSquare.text() == X) {
+                squaresWithX.push(currentSquare);
+              } else if(currentSquare.text() == O) {
+                hasO = true;
+              }
+            });
+
+            if(squaresWithX.length == 2 && !hasO) {
+              combos++;
+            }
+          });
+
+          if(combos == 2) {
+            potentialIndicies.push(emptyIndexes[i]);
+          }
+        }
+
+        // check the potential indicies
+        if(potentialIndicies.length == 2) {
+          // return the first available side (1, 3, 5, 7)
+          $.each(SIDE_SQUARES, function(index, value) {
+            var currentSquare = fakeSquares.eq(value);
+            if(currentSquare.text() === "") {
+              indexCreatesFork = value;
+              return false;
+            }
+          });
+        } else {
+          indexCreatesFork = potentialIndicies[0];
+        }
+
+        //console.log("Indicies that will create fork: " + (potentialIndicies.length ? potentialIndicies : "none"));
+        //squares.removeClass("highlight");
+        //$.each(potentialIndicies, function(index, value) {
+          //squares.eq(value).addClass("highlight");
+        //});
+        return indexCreatesFork;
+      };
+
       squares.click(function() {
         var square = $(this);
         var squareIndex = squares.index(square);
@@ -140,6 +210,15 @@
           return;
         }
 
+        // see if x can create a fork
+        var forked = findPotentialFork(board);
+        //console.log(forked);
+        if(forked > -1) {
+          squares.eq(forked).text(O);
+          played = true;
+          return;
+        }
+
         // if X picks the middle, put O in a corner
         if(squareIndex == CENTER_SQUARE) {
           $.each(CORNER_SQUARES, function(index, value) {
@@ -156,11 +235,17 @@
           }
         }
 
+        // if center is empty, play it
+        var centerSquare = squares.eq(CENTER_SQUARE);
+        if(centerSquare.text() === "") {
+          centerSquare.text(O);
+          return;
+        }
+
         // if X picks a corner, put O in the center
         if($.inArray(squareIndex, CORNER_SQUARES) > -1) {
-          var centerSquare = squares.eq(CENTER_SQUARE);
           if(centerSquare.text() === "") {
-            squares.eq(CENTER_SQUARE).text(O);
+            centerSquare.text(O);
             played = true;
           } else {
             // put O in a side (1, 3, 5, 7)
