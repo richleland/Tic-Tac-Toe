@@ -81,7 +81,7 @@ $(function(){
         break;
       }
     }
-    ok(!xWon);
+    ok(!xWon, "We expect " + X + " to never win a game. Mwa ah ah!");
   });
 
   module("User interactions", {
